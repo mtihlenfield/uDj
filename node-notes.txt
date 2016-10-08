@@ -1,0 +1,5 @@
+Node talk notes:
+
+- let = scope protected var. Prevents accessing variables from outside their scope
+- make an api route file
+    - place an app.get("/api", apiRoutes); line in app.js
