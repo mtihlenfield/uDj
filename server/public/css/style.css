@@ -28,7 +28,11 @@ h4 { font-size: 20px; }
   margin-top: 0;
   color: #212121;
   transform: translateX(50%);
+<<<<<<< HEAD
+
+=======
   
+>>>>>>> 16fa642e0fe4c740a5e61e99746ac4fb8d376325
 }
 
 /* Styles for Vinyl Record */
@@ -163,7 +167,11 @@ h4 { font-size: 20px; }
 }
 
 .current-song {
+<<<<<<< HEAD
+  width: 70%;
+=======
   width: 50%;
+>>>>>>> 16fa642e0fe4c740a5e61e99746ac4fb8d376325
   margin: 0 auto;
   text-align: center;
 }
@@ -198,7 +206,11 @@ button:active {
 }
 
 .add-song {
+<<<<<<< HEAD
+  background-color: #00E676;  1
+=======
   background-color: #00E676;  
+>>>>>>> 16fa642e0fe4c740a5e61e99746ac4fb8d376325
   padding-bottom: 24px;
   display: none;
 }
@@ -226,22 +238,44 @@ button:active {
   margin: 0 auto;
 }
 
+<<<<<<< HEAD
+.song-list {
+  padding-left: 5px;
+}
+
+.artist-list,
+.album-list { border-radius: 3px; }
+.artist-list {
+  width: 80%;
+=======
 .artist-list,
 .album-list { border-radius: 3px; }
 .artist-list {
   width: 70%;
+>>>>>>> 16fa642e0fe4c740a5e61e99746ac4fb8d376325
 }
 
 .artist-list {
   z-index: 1;
+<<<<<<< HEAD
+  padding-bottom: 6px;
+=======
+>>>>>>> 16fa642e0fe4c740a5e61e99746ac4fb8d376325
 }
 
 .artist {
   background-color: #212121;
+<<<<<<< HEAD
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 28px;
+  margin-bottom: 5px;
+=======
   margin-bottom: 5px;
   border-radius: 3px;
   cursor: pointer;
   font-size: 28px;
+>>>>>>> 16fa642e0fe4c740a5e61e99746ac4fb8d376325
 }
 
 /*.artist:hover {
@@ -267,6 +301,14 @@ button:active {
 .album {
   font-size: 24px;
   color: #212121;
+<<<<<<< HEAD
+  border-bottom: 5px solid #212121;
+}
+
+.album:not(:last-child) {
+
+=======
+>>>>>>> 16fa642e0fe4c740a5e61e99746ac4fb8d376325
 }
 
 .song-list {
@@ -281,7 +323,11 @@ button:active {
 #queue {
   color: #00E676;
   background-color: #212121;
+<<<<<<< HEAD
+
+=======
   
+>>>>>>> 16fa642e0fe4c740a5e61e99746ac4fb8d376325
 }
 
 #queue h3 {
@@ -310,6 +356,22 @@ button:active {
   line-height: 1.5;
 }
 
+<<<<<<< HEAD
+@media (min-width: 700px) {
+  /*.header { text-align: left; }
+  #queue { text-align: left; }*/
+  .header h1 {
+    transform: translateX(0);
+    transition: all 1s ease;
+  }
+  #queue h3 {
+    transform: translateX(0);
+    transition: all 1s ease;
+  }
+
+
+
+=======
 @media (min-width: 700px) { 
   /*.header { text-align: left; }
   #queue { text-align: left; }*/
@@ -324,4 +386,5 @@ button:active {
   
   
   
+>>>>>>> 16fa642e0fe4c740a5e61e99746ac4fb8d376325
 }
