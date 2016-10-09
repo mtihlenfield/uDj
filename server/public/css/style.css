@@ -27,7 +27,8 @@ h4 { font-size: 20px; }
   font-size: 45px;
   margin-top: 0;
   color: #212121;
-  transform: translateX(50%);
+  width: 100%;
+  text-align: center;
 }
 
 /* Styles for Vinyl Record */
@@ -204,6 +205,8 @@ button:active {
 
 .add-song h3 {
   color: #212121;
+  width: 100%;
+  text-align: center;
 }
 /* Add Song Overlay Styles */
 .hover:hover {
@@ -279,7 +282,8 @@ button:active {
 #queue h3 {
   transition: all 1s ease;
   margin-top: 0;
-  transform: translateX(50%);
+  width: 100%;
+  text-align: center;
 }
 
 .queue-list {
@@ -304,11 +308,19 @@ button:active {
 
 @media (min-width: 700px) {
   .header h1 {
-    transform: translateX(0);
     transition: all 1s ease;
+    width: 0;
+    text-align: center;
   }
   #queue h3 {
-    transform: translateX(0);
     transition: all 1s ease;
+    width: 0;
+    text-align: center;
+  }
+
+  .add-song h3 {
+    color: #212121;
+    width: 0;
+    text-align: center;
   }
 }
