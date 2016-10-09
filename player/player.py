@@ -4,6 +4,7 @@ import pika
 import time
 import threading
 import json
+import os
 
 """
     Commands:
@@ -15,6 +16,9 @@ import json
     Replies sent back:
         done
 """
+
+MUSIC_FOLDER = os.path.join(os.path.expanduser("~"), "music")
+
 COMMAND_REQUEST = "request"
 COMMAND_STOP = "stop"
 COMMAND_PAUSE = "pause"
@@ -29,7 +33,13 @@ class Player:
 
     def _play(self, uri):
         def run():
-            media = self.instance.media_new(uri)
+            
+            local_file = os.path.join(MUSIC_FOLDER, uri)
+            if (os.path.fileexists(local_file)):
+                media = self.instance.media_new(local_file)
+            else
+                media = self.instance.media_new(uri)
+                
             self.player.set_media(media)
             self.player.play()
 
