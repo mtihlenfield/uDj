@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "Starting player..."
+./player/player.py &
+
+echo "Starting server..."
+cd server
+npm start
+
