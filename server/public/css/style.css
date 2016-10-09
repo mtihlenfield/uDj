@@ -1,0 +1,185 @@
+* {
+  outline: px solid white;
+}
+
+body {
+  font-family: 'Alegreya Sans SC', sans-serif;
+  background-color: #311B92;
+  color: #fff;
+}
+
+.shadow {
+  box-shadow: 0 4px 8px rgba(0,0,0,.28);
+}
+
+.header {
+  background-color: #9e9e9e;
+  width: 100%;
+}
+
+.header h1 {
+  font-weight: 300;
+  font-size: 45px;
+  margin-top: 0;
+  color: #212121;
+  
+}
+
+/* Styles for Vinyl Record */
+.record-box {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.record {
+  width: 280px;
+  height: 280px;
+  background-color: #212121;
+  margin: 0 auto;
+  border-radius: 50%;
+  position: relative;
+}
+
+.ring-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+.ring,
+.ring2,
+.ring3,
+.ring4,
+.ring5,
+.ring6,
+.ring7 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border-style: solid;
+  border-width: 3px;
+  border-left-color: #9e9e9e;
+  border-right-color: #9e9e9e;
+  border-top-color: #424242;
+  border-bottom-color: #424242;
+}
+
+.ring {
+  width: 260px;
+  height: 260px;
+  margin-left: -130px;
+  margin-top: -130px;
+}
+
+.ring2 {
+  width: 240px;
+  height: 240px;
+  margin-left: -120px;
+  margin-top: -120px;
+}
+
+.ring3 {
+  width: 220px;
+  height: 220px;
+  margin-left: -110px;
+  margin-top: -110px;
+}
+
+.ring4 {
+  width: 200px;
+  height: 200px;
+  margin-left: -100px;
+  margin-top: -100px;
+}
+
+.ring5 {
+  width: 180px;
+  height: 180px;
+  margin-left: -90px;
+  margin-top: -90px;
+}
+
+.ring6 {
+  width: 160px;
+  height: 160px;
+  margin-left: -80px;
+  margin-top: -80px;
+}
+
+.ring7 {
+  width: 140px;
+  height: 140px;
+  margin-left: -70px;
+  margin-top: -70px;
+}
+
+.inner {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  margin-left: -50px;
+  margin-top: -50px;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  background-color: black;
+  border: 30px solid #00E676;
+  box-sizing: border-box;
+}
+
+.dot {
+  position: absolute;
+  height: 24px;
+  width: 24px;
+  margin-left: -12px;
+  margin-top: -12px;
+  left: 50%;
+  top: 50%;
+  background-color: #fff;
+  border-radius: 50%;
+}
+
+/* Vinyl Record Animations */
+.spin {
+  -webkit-animation:spin 2.5s linear infinite;
+          animation:spin 2.5s linear infinite;
+}
+
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.section {
+  width: 100%;
+}
+
+.current-song {
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Song Queue Styles */
+.section h3 {
+  font-size: 32px;
+}
+
+.queue {
+  color: #00E676;
+  background-color: #212121;
+}
+
+.song-list {
+  width: 90%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.song-box {
+  width: 200px;
+  height: 200px;
+  background-color: white;
+  display: inline-block;
+  margin: 12px;
+}

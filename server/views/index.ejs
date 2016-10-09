@@ -2,10 +2,68 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/css/normalize.css'>
+    <link rel='stylesheet' href='/css/style.css'>
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:300,400" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <div class="header shadow">
+      <h1><%= title %></h1>  
+    </div>
+      <div class="record-box">
+        <div class="record shadow">
+          <div class="ring-container spin">
+            <div class="ring">
+            </div>
+            <div class="ring2">
+            </div>
+            <div class="ring3">
+            </div>
+            <div class="ring4">
+            </div>
+            <div class="ring5">
+            </div>
+            <div class="ring6">
+            </div>
+            <div class="ring7">
+            </div>
+            <div class="inner">
+            </div>
+            <div class="dot">
+            </div>
+           </div>
+        </div>
+      </div>
+    <button type="button" id="playButton" onclick="pauseAnim()">Click Me!</button>
+    <div class="section">
+      <div class="current-song section">
+        <h4>Style - Taylor Swift - 1989</h4>
+      </div>
+    </div>
+    <div class="section queue">
+      <h3>Queue</h3>
+      <div class="song-list">
+        <div class="song-box">
+          
+        </div>
+        <div class="song-box">
+          
+        </div>
+        <div class="song-box">
+          
+        </div>
+        <div class="song-box">
+          
+        </div>
+        <div class="song-box">
+          
+        </div>
+        <div class="song-box">
+          
+        </div>
+      </div>
+    </div>
   </body>
 </html>
