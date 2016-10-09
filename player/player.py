@@ -78,9 +78,10 @@ class Player:
 def main():
 
     def notify():
+        print("notifying")
         connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
         channel = connection.channel()
-        channel.queue_declare(queue='song_complete_queue')
+        channel.queue_declare(queue='song_complete_queue', durable=False)
         channel.basic_publish(exchange='', routing_key='song_complete_queue', body='done')
 
     player = Player()

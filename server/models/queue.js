@@ -54,24 +54,24 @@ module.exports = (function() {
   
   var playNext = function() {
   	  console.log("Playing from playNext");
-	  Player.play(queue[0]);
+	  Player.play(queue[0]["FileLocation"]);
   };
   
   var handleMessage = function(msg) {
   	console.log("handling message");
 	if (queue.length > 0) {
-	  queue.pop();
+	  queue.shift();
 	  playNext();
 	} 
   };
   
   (function(callback) {
-	var q = "player_queue";
+	var q = "song_complete_queue";
 	amqp.connect('amqp://localhost')
 	  .then(function(conn) {
 		return conn.createChannel();
 	  }).then(function(ch) {
-		return ch.assertQueue(q).then(function(ok) {
+		return ch.assertQueue(q, {"durable": false}).then(function(ok) {
 		  return ch.consume(q, callback);
 		});
 	  }).catch(console.err);
