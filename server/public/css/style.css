@@ -203,23 +203,44 @@ button:active {
   color: #212121;
 }
 /* Add Song Overlay Styles */
-.artist-list {
-  width: 50%;
+.hover:hover {
+  transition: opacity 65ms ease;
+  opacity: .85;
+}
+
+.hover:active {
+  transition: opacity 65ms ease;
+  opacity: .75;
+}
+
+.artist-list,
+.album-list,
+.song-list {
   list-style-type: none;
   text-align: center;
   padding-left: 0;
   margin: 0 auto;
 }
 
+.artist-list,
+.album-list { border-radius: 3px; }
+.artist-list {
+  width: 70%;
+}
+
+.artist-list {
+  z-index: 1;
+}
+
 .artist {
-  background-color: #311B92;
+  background-color: #212121;
   margin-bottom: 5px;
   border-radius: 3px;
   cursor: pointer;
   font-size: 28px;
 }
 
-.artist:hover {
+/*.artist:hover {
   transition: opacity 65ms ease;
   opacity: .85;
 }
@@ -227,7 +248,7 @@ button:active {
 .artist:active {
   transition: opacity 65ms ease;
   opacity: .75;
-}
+}*/
 
 .album-list {
   padding-left: 0;
@@ -235,9 +256,22 @@ button:active {
   width: 80%;
   margin: 0 auto;
   display: none;
+  background-color: #9e9e9e;
+  z-index: 2;
 }
 
 .album {
+  font-size: 24px;
+  color: #212121;
+}
+
+.song-list {
+  background-color: #212121;
+  font-size: 20px;
+  text-align: left;
+  color: #fff;
+  z-index: 3;
+  display: none;
 }
 /* Song Queue Styles */
 .queue {

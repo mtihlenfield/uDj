@@ -9,21 +9,23 @@ module.exports = (function() {
         });
     };
  
-    //function getArtist(artistID, callback){
-    //    db.serialize(function(){
-    //        db.all('select distinct a.AlbumID, a.AlbumName from song as s inner join album as a on s.AlbumID=a.AlbumID where s.ArtistID='+artistID, callback);
-    //    });
-    //};
- 
-    //function getAlbum(){};
-    var getAlbum = function(id, callback){
+    var getArtist = function(artistId, callback){
         db.serialize(function(){
-            db.all('select distinct s.id, s.Name from song as s inner join album as a on s.AlbumID=a.AlbumID where s.albumID='+id, callback);
+            db.all('select distinct a.AlbumID, a.AlbumName from song as s inner join album as a on s.AlbumID=a.AlbumID where s.ArtistID='+artistId, callback);
+        });
+    };
+ 
+    
+    var getAlbum = function(albumId, callback){
+        db.serialize(function(){
+            db.all('select distinct s.id, s.Name from song as s inner join album as a on s.AlbumID=a.AlbumID where s.albumID='+ albumId , callback);
         })
     }
     
     return {
-      getSong: getSong  
+      getSong: getSong,
+      getArtist: getArtist,
+      getAlbum: getAlbum
     };
     
 })();
