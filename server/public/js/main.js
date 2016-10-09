@@ -1,6 +1,5 @@
 window.onload = function(){
   addSongSlide();
-  queueSong();
   getQueue().then(function(data) {
     console.log(data);
   });
@@ -19,16 +18,21 @@ function pauseAnim () {
 }
 
 function addSongSlide () {
-  $('#add-song-btn').off('click');
-  $('#add-song-btn').click(function () {
+  let btn = $('#add-song-btn');
+  btn.off('click');
+  btn.click(function (evt) {
+    evt.stopPropagation();
     if ($('.add-song').is(':visible')) {
+      btn.text('Add Song');
       setTimeout(function() {
         $('.artist-list').empty();
       }, 300);
-    } else{
+      $('.add-song').slideToggle(300);
+    } else {
+      btn.text('Cancel');
       populateArtists();
     }
-    $('.add-song').slideToggle(300);
+    
   });
 }
 
@@ -41,20 +45,27 @@ function populateArtists () {
       for (let i = 0; i < data.length; i++) {
         $(".artist-list").append('<li class="artist hover" data-id="' + data[i].ArtistID + '">' + data[i].ArtistName + '</li>');
       }
+      $('.add-song').slideToggle(300);
       artistSlide();
     }
   }); 
 }
 
 function queueSong () {
-  $('.song').click(function () {
+  $('.song').click(function (evt) {
+    evt.stopPropagation();
+    let song = $(this);
     console.log("Click.");
     $.ajax({
       type: "POST",
-      url: "./api/queue/request/" + $(this).dataset.id,
+      url: "./api/queue/request/" + song[0].dataset.id,
       data: {},
       success: function(data) {
         console.log("Request: " + data);
+        $('#add-song-btn').text('Add Song');
+        $('.add-song').slideToggle(300, function () {
+          $('.artist-list').empty();
+        });
       }
     });
   });
@@ -65,6 +76,7 @@ function getQueue () {
 }
 
 function populateAlbums (artist) {
+  $('.artist').off('click');
   $.ajax({
     type: "POST",
     url:'./api/music/artist/' + artist[0].dataset.id,
@@ -83,6 +95,7 @@ function populateAlbums (artist) {
 }
 
 function populateSongs (album) {
+  $('.album').off('click');
   $.ajax({
     type: "POST",
     url:'./api/music/album/' + album[0].dataset.id,
@@ -95,13 +108,17 @@ function populateSongs (album) {
       }
       $(album[0]).append(ul);
       $(album[0]).children('ul').slideDown(300);
+      
+      queueSong();
+      
     }
   })
 }
 
 function artistSlide () {
   $('.artist').off('click');
-  $('.artist').click(function () {
+  $('.artist').click(function (evt) {
+    evt.stopPropagation();
     $('.hover').removeClass('hover');
     let artist = $(this);
     let ind = artist.index();

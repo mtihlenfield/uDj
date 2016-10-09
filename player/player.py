@@ -35,7 +35,7 @@ class Player:
         def run():
 
             local_file = os.path.join(MUSIC_FOLDER, uri)
-            if (os.path.fileexists(local_file)):
+            if (os.path.isfile(local_file)):
                 media = self.instance.media_new(local_file)
             else:
                 media = self.instance.media_new(uri)

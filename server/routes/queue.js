@@ -19,8 +19,21 @@ var queueApi = function(app, queue) {
         });
     });
     
+    app.post("/api/queue/pause", function(req, res, err){
+        queue.pause().then(function(){
+           res.sendStatus(200);
+        }, function(){
+            res.sendStatus(400);
+        });
+    });
     
-    
+    app.post("/api/queue/stop", function(req, res, err){
+        queue.pause().then(function(){
+            res.sendStatus(200);
+        }, function(){
+            res.sendStatus(400);
+        });
+    });
 };
 
 module.exports = queueApi;
