@@ -5,8 +5,10 @@
     <link rel='stylesheet' href='/css/normalize.css'>
     <link rel='stylesheet' href='/css/style.css'>
     <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:300,400" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="/js/main.js"></script>
+    <link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="img/favicon-16x16.png" sizes="16x16" />
+    <script async src="/js/jquery.min.js"></script>
+    <script async src="/js/main.js"></script>
   </head>
   <body>
     <div class="header shadow">
@@ -14,7 +16,7 @@
     </div>
       <div class="record-box">
         <div class="record shadow">
-          <div class="ring-container spin">
+          <div class="ring-container">
             <div class="ring">
             </div>
             <div class="ring2">
@@ -36,15 +38,23 @@
            </div>
         </div>
       </div>
-    <button type="button" id="playButton" onclick="pauseAnim()">Click Me!</button>
     <div class="section">
-      <div class="current-song section">
+      <div class="section current-song">
         <h4>Style - Taylor Swift - 1989</h4>
       </div>
     </div>
+    <div class="section add-btn">
+      <button type="button" id="add-song-btn">Add Song</button>
+    </div>
+    <div class="section add-song">
+      <h3>Artists</h3>
+      <ul class="artist-list">
+        
+      </ul>
+    </div>
     <div class="section queue">
       <h3>Queue</h3>
-      <div class="song-list">
+      <div class="queue-list">
         <div class="song-box">
           
         </div>
@@ -65,5 +75,6 @@
         </div>
       </div>
     </div>
+  
   </body>
 </html>

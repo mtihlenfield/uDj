@@ -8,6 +8,8 @@ body {
   color: #fff;
 }
 
+h1, h3 { margin-left: 8px; }
+
 .shadow {
   box-shadow: 0 4px 8px rgba(0,0,0,.28);
 }
@@ -26,11 +28,6 @@ body {
 }
 
 /* Styles for Vinyl Record */
-.record-box {
-  width: 80%;
-  margin: 0 auto;
-}
-
 .record {
   width: 280px;
   height: 280px;
@@ -154,23 +151,105 @@ body {
   width: 100%;
 }
 
+.section h3 {
+  font-size: 32px;
+  font-weight: 300;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
 .current-song {
   width: 50%;
   margin: 0 auto;
   text-align: center;
 }
 
-/* Song Queue Styles */
-.section h3 {
-  font-size: 32px;
+.add-btn {
+  text-align: center;
 }
 
+.add-btn button {
+  width: 200px;
+  height: 50px;
+  border-radius: 3px;
+  background-color: #00E676;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  transition: opacity 65ms ease;
+  opacity: .85;
+}
+
+button:active {
+  transition: opacity 65ms ease;
+  opacity: .75;
+}
+
+.add-song {
+  background-color: #00E676;  
+  padding-bottom: 24px;
+  display: none;
+}
+
+.add-song h3 {
+  color: #212121;
+}
+/* Add Song Overlay Styles */
+.artist-list {
+  width: 50%;
+  list-style-type: none;
+  text-align: center;
+  padding-left: 0;
+  margin: 0 auto;
+}
+
+.artist {
+  background-color: #311B92;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 28px;
+}
+
+.artist:hover {
+  transition: opacity 65ms ease;
+  opacity: .85;
+}
+
+.artist:active {
+  transition: opacity 65ms ease;
+  opacity: .75;
+}
+
+.album-list {
+  padding-left: 0;
+  list-style-type: none;
+  width: 80%;
+  margin: 0 auto;
+  display: none;
+}
+
+.album {
+}
+/* Song Queue Styles */
 .queue {
   color: #00E676;
   background-color: #212121;
 }
 
-.song-list {
+.queue h3 {
+  margin-top: 0;
+}
+
+.queue-list {
   width: 90%;
   margin: 0 auto;
   text-align: center;
@@ -182,4 +261,5 @@ body {
   background-color: white;
   display: inline-block;
   margin: 12px;
+  border-radius: 3px;
 }
