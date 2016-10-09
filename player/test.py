@@ -1,11 +1,12 @@
-#!/usr/bin/python3
+#!/usr/bin/python2
 import pygame
 import time
 
+pygame.init()
 pygame.mixer.init()
 pygame.mixer.music.load("test.mp3")
 pygame.mixer.music.play()
 
 while True:
-    time.sleep(1)
+    time.sleep(10)
     continue

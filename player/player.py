@@ -54,11 +54,10 @@ class Slave:
 
 
 def main():
-    print("Main")
-    pygame.mixer.init()
-    pygame.mixer.music.load("test.mp3")
-    pygame.mixer.music.play()
-    while True:
+    player = Player()
+    player.play("test.mp3")
+    while player.is_playing:
+        time.sleep(1)
         continue
 
 
