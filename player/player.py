@@ -65,6 +65,7 @@ class Player:
         content = json.loads(str(body, "utf-8"))
         command_type = content["command_type"]
         if command_type == COMMAND_REQUEST:
+            print("playing: ", content)
             self._play(content["song"])
         elif command_type == COMMAND_PAUSE:
             self._pause()
@@ -87,7 +88,7 @@ def main():
 
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
-    channel.queue_declare(queue='command_queue')
+    channel.queue_declare(queue='command_queue', durable=False)
 
     channel.basic_consume(player.listen, queue='command_queue', no_ack=True)
     channel.start_consuming()

@@ -12,14 +12,14 @@ var Player = {
 				return conn.createChannel();
 			})
 			.then(function(ch) {
-				return ch.assertQueue(q).then(function(ok) {
+				return ch.assertQueue(q, { "durable": false }).then(function(ok) {
 					return ch.sendToQueue(q, new Buffer(msg));
 				});
 			}).catch(console.error);
 	},
 	
 	play: function(uri) {
-		
+		console.log("play: ", uri);		
 		var payload = {
 			"command_type": "request",
 			"song": uri
@@ -50,13 +50,7 @@ var Player = {
 
 module.exports = (function() {
   
-  var queue = [{
-	  "id": 1, 
-	  "name": "test-song",
-	  "album": "test algbum", 
-	  "artist": "matt I", 
-	  "location": "music"
-  }];
+  var queue = [];
   
   var playNext = function() {
   	  console.log("Playing from playNext");
@@ -86,6 +80,7 @@ module.exports = (function() {
   
   var request = function(song) {
 	  
+	  console.log(song);
 	  if (queue.length == 0) {
 		  queue.push(song);
 		  console.log("Playing from request");

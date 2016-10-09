@@ -21,10 +21,12 @@ TAG_ALBUM = "ALBUM"
 TAG_GENRE = "GENRE"
 
 """ Technically not constants but close enough """
-HOME_DIR = os.path.expanduser("~")
-HOME_DIR = os.path.join(HOME_DIR,"Desktop/msqlite")
-MUSIC_DIR = os.path.join(HOME_DIR, "music")
-DB_LOCATION = os.path.join(HOME_DIR, "test.db")
+#HOME_DIR = os.path.expanduser("~")
+#HOME_DIR = os.path.join(HOME_DIR,"Desktop/msqlite")
+#MUSIC_DIR = os.path.join(HOME_DIR, "music")
+#DB_LOCATION = os.path.join(HOME_DIR, "test.db")
+MUSIC_DIR = "/home/strav/music"
+DB_LOCATION = "/home/strav/udj/db/test.db"
 
 
 def create_db(path_to_db):
@@ -55,6 +57,7 @@ def find_songs(dir):
         for file in filenames:
             path = os.path.join(root, file)
             #print("h: "+path[len(dir):])
+            print(dir.split('/')[-1],path[len(dir)+1:])
             name, ext = os.path.splitext(path)
             if ext in MUSIC_FORMATS:
                 yield os.path.join(dir.split('/')[-1],path[len(dir)+1:])
@@ -94,8 +97,8 @@ def extract_metadata(song_paths):
     rows = []
     i = 0
     for song_path in song_paths:
-        full_path = os.path.realpath(song_path)
-        # print(full_path)
+        full_path = os.path.abspath(song_path)
+        print(full_path)
         song = taglib.File(full_path)
         file_name, ext = name, ext = os.path.splitext(song_path)
         file_name = name.split("/")[-1]
