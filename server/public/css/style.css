@@ -274,12 +274,12 @@ button:active {
   display: none;
 }
 /* Song Queue Styles */
-.queue {
+#queue {
   color: #00E676;
   background-color: #212121;
 }
 
-.queue h3 {
+#queue h3 {
   margin-top: 0;
 }
 

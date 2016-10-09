@@ -1,8 +1,11 @@
 window.onload = function(){
   addSongSlide();
-  getQueue().then(function(data) {
+  /*getQueue().then(function(data) {
     console.log(data);
-  });
+  });*/
+  setInterval(function(){
+    getQueue();
+  },1000);
   
 }
 
@@ -72,7 +75,21 @@ function queueSong () {
 }
 
 function getQueue () {
-  return $.get("./api/queue");
+  $.ajax({
+    type: "GET",
+    url:'./api/queue',
+    data: {},
+    success: function(data) {
+      console.log(data);
+      let ul = $(document.createElement('ul'));
+      ul.addClass('queue-list');
+      for (let i = 0; i < data.length; i++) {
+        ul.append('<li class="song-box" data-id="' + data[i].id + '">' + data[i].Name + '</li>');
+      }
+      $('.queue-list').empty();
+      $('#queue').append(ul);
+    }
+  });
 }
 
 function populateAlbums (artist) {
@@ -142,5 +159,25 @@ function albumSlide () {
     setTimeout(function() {
       populateSongs(album);
     }, 200);
+  })
+}
+
+function populateQueue () {
+  $.ajax({
+    type: "POST",
+    url:'./api/music/album/' + album[0].dataset.id,
+    data: {},
+    success: function(data) {
+      let ul = $(document.createElement('ul'));
+      ul.addClass('song-list');
+      for (let i = 0; i < data.length; i++) {
+        ul.append('<li class="song hover" data-id="' + data[i].id + '">' + data[i].Name + '</li>');
+      }
+      $(album[0]).append(ul);
+      $(album[0]).children('ul').slideDown(300);
+      
+      queueSong();
+      
+    }
   })
 }

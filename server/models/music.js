@@ -5,7 +5,7 @@ module.exports = (function() {
  
     var getSong = function(id, callback) { //get {id, name. albumID, artistID, location} from songID
         db.serialize(function(){
-            db.all('SELECT * FROM song WHERE id = '+ id, callback);
+            db.all('select s.id, s.name, al.albumname, ar.artistname from song s, album al, artist ar where s.albumid = al.albumid and s.artistid = ar.artistid and s.id = '+ id, callback);
         });
     };
  
