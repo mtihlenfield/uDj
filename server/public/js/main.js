@@ -1,11 +1,12 @@
 window.onload = function(){
+  getQueue();
   addSongSlide();
   /*getQueue().then(function(data) {
     console.log(data);
   });*/
   setInterval(function(){
     getQueue();
-  },1000);
+  },10000);
   
 }
 
@@ -66,6 +67,7 @@ function queueSong () {
       success: function(data) {
         console.log("Request: " + data);
         $('#add-song-btn').text('Add Song');
+        getQueue();
         $('.add-song').slideToggle(300, function () {
           $('.artist-list').empty();
         });
@@ -83,10 +85,12 @@ function getQueue () {
       console.log(data);
       let ul = $(document.createElement('ul'));
       ul.addClass('queue-list');
-      for (let i = 0; i < data.length; i++) {
-        ul.append('<li class="song-box" data-id="' + data[i].id + '">' + data[i].Name + '</li>');
+      if (data.length <= 0) return;
+      document.getElementsByClassName("current-song")[0].getElementsByTagName("h4")[0].innerHTML = data[0].Name+" </br> "+data[0].ArtistName + " </br> " + data[0].AlbumName;
+      for (let i = 1; i < data.length; i++) {
+        ul.append('<li class="song-box" data-id="' + data[i].id + '">' + data[i].Name + ' </br>' + data[i].ArtistName + '</br>' + data[i].AlbumName + '</li>');
       }
-      $('.queue-list').empty();
+      $('.queue-list').remove();
       $('#queue').append(ul);
     }
   });

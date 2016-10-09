@@ -10,6 +10,8 @@ body {
 
 h1, h3 { margin-left: 8px; }
 
+h4 { font-size: 20px; }
+
 .shadow {
   box-shadow: 0 4px 8px rgba(0,0,0,.28);
 }
@@ -20,10 +22,12 @@ h1, h3 { margin-left: 8px; }
 }
 
 .header h1 {
+  transition: all 1s ease;
   font-weight: 300;
   font-size: 45px;
   margin-top: 0;
   color: #212121;
+  transform: translateX(50%);
   
 }
 
@@ -277,23 +281,47 @@ button:active {
 #queue {
   color: #00E676;
   background-color: #212121;
+  
 }
 
 #queue h3 {
+  transition: all 1s ease;
   margin-top: 0;
+  transform: translateX(50%);
 }
 
 .queue-list {
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
-  text-align: center;
+  padding-left: 0;
 }
 
 .song-box {
-  width: 200px;
-  height: 200px;
-  background-color: white;
+  width: auto;
+  border: 3px solid #00E676;
   display: inline-block;
   margin: 12px;
   border-radius: 3px;
+  text-align: center;
+  color: #fff;
+  font-size: 24px;
+  padding: 4px 8px;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+@media (min-width: 700px) { 
+  /*.header { text-align: left; }
+  #queue { text-align: left; }*/
+  .header h1 { 
+    transform: translateX(0); 
+    transition: all 1s ease;
+  }
+  #queue h3 { 
+    transform: translateX(0); 
+    transition: all 1s ease;
+  }  
+  
+  
+  
 }

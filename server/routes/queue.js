@@ -34,6 +34,10 @@ var queueApi = function(app, queue) {
             res.sendStatus(400);
         });
     });
+    
+    app.post("/api/queue/skip", function(req, res, err){
+        
+    })
 };
 
 module.exports = queueApi;
