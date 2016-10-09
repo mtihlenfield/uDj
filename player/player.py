@@ -33,11 +33,10 @@ class Player:
             self.player.set_media(media)
             self.player.play()
 
-            print(self.player.get_state())
             while self.player.get_state() == vlc.State.Playing or self.player.get_state() == vlc.State.Opening:
                 time.sleep(1)
                 continue
-            print("Done!")
+
             self.callback()
 
         thread = threading.Thread(target=run)
