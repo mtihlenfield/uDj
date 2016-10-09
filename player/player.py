@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import pygame
 import pika
+import time
 
 # TODO test get_busy while paused
 
@@ -45,28 +46,19 @@ class Slave:
         self.player = Player()
         self.thread = None
 
-    def listen(ch, method, properties, body):
+    def listen(self, ch, method, properties, body):
         print(" [x] Received %r" % body)
 
-    def notify():
+    def notify(self):
         pass
 
 
 def main():
-    """ slave = Slave()
-
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-    channel = connection.channel()
-    channel.queue_declare(queue='commands')
-    channel.basic_consume(slave.listen, queue='commands', no_ack=True)
-    channel.start_consuming()
-
-    """
-
+    print("Main")
     pygame.mixer.init()
     pygame.mixer.music.load("test.mp3")
     pygame.mixer.music.play()
-    while pygame.mixer.music.get_busy():
+    while True:
         continue
 
 
