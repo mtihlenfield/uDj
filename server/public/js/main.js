@@ -7,7 +7,7 @@ window.onload = function(){
   setInterval(function(){
     getQueue();
   },10000);
-  
+  playPause();
 }
 
 function pauseAnim () {
@@ -17,7 +17,7 @@ function pauseAnim () {
     document.body.className = 'paused';
   } else {
     style.webkitAnimationPlayState = 'running';
-    document.body.className = '';       
+    document.body.className = '';
   }
 }
 
@@ -36,7 +36,7 @@ function addSongSlide () {
       btn.text('Cancel');
       populateArtists();
     }
-    
+
   });
 }
 
@@ -52,7 +52,7 @@ function populateArtists () {
       $('.add-song').slideToggle(300);
       artistSlide();
     }
-  }); 
+  });
 }
 
 function queueSong () {
@@ -129,9 +129,9 @@ function populateSongs (album) {
       }
       $(album[0]).append(ul);
       $(album[0]).children('ul').slideDown(300);
-      
+
       queueSong();
-      
+
     }
   })
 }
@@ -179,9 +179,23 @@ function populateQueue () {
       }
       $(album[0]).append(ul);
       $(album[0]).children('ul').slideDown(300);
-      
+
       queueSong();
-      
+
     }
   })
+}
+
+function playPause () {
+  $('#play').click(function () {
+    $(this).attr('id', 'pause');
+    $(this).attr('src', 'img/pause.png');
+    $(this).attr('alt', 'pause');
+  })
+  $('#pause').click(function () {
+    $(this).attr('id', 'play');
+    $(this).attr('src', 'img/play.png');
+    $(this).attr('alt', 'play');
+  })
+  pauseAnim();
 }
