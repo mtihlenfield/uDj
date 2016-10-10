@@ -1,12 +1,12 @@
 var amqp = require("amqplib");
 
 var Player = {
-	
+
 	send: function(payload) {
-		
+
 		var q = "command_queue";
 		var msg = JSON.stringify(payload);
-		
+
 		return amqp.connect('amqp://localhost')
 			.then(function(conn) {
 				return conn.createChannel();
@@ -17,57 +17,57 @@ var Player = {
 				});
 			}).catch(console.error);
 	},
-	
+
 	play: function(uri) {
-		console.log("play: ", uri);		
+		console.log("play: ", uri);
 		var payload = {
 			"command_type": "request",
 			"song": uri
 		};
-		
+
 		return this.send(payload);
-	}, 
-	
+	},
+
 	stop: function() {
-		
+
 		var payload = {
 			"command_type": "stop"
 		};
-		
+
 		return this.send(payload);
 	},
-	
+
 	pause: function() {
-		
+
 		var payload = {
 			"command_type": "pause"
 		};
-		
+
 		return this.send(payload);
 	}
-	
+
 };
 
-module.exports = (function() {
-  
+module.exports = function(host) {
+
   var queue = [];
-  
+
   var playNext = function() {
-  	  console.log("Playing from playNext");
-	  Player.play(queue[0]["FileLocation"]);
+  	  console.log("Playing from playNext.");
+	  Player.play(queue[0].FileLocation);
   };
-  
+
   var handleMessage = function(msg) {
-  	console.log("handling message");
+  	console.log("Handling message: ", msg.body);
 	if (queue.length > 0) {
 	  queue.shift();
 	  playNext();
-	} 
+	}
   };
-  
+
   (function(callback) {
 	var q = "song_complete_queue";
-	amqp.connect('amqp://localhost')
+	amqp.connect(host)
 	  .then(function(conn) {
 		return conn.createChannel();
 	  }).then(function(ch) {
@@ -75,34 +75,38 @@ module.exports = (function() {
 		  return ch.consume(q, callback);
 		});
 	  }).catch(console.err);
-	
+
   })(handleMessage);
-  
+
   var request = function(song) {
-	  
-	  console.log(song);
-	  if (queue.length == 0) {
+
+	  console.log("Queue: Recived requst for: ", song);
+	  if (queue.length === 0) {
 		  queue.push(song);
 		  console.log("Playing from request");
-		  Player.play(song["FileLocation"]);
+		  Player.play(song.FileLocation);
 	  } else {
 		  queue.push(song);
 	  }
-	  
+
   };
-  
+
   var pause = function() {
 	  return Player.pause();
   };
-  
+
+  var stop = function() {
+	  return Player.stop();
+  };
+
   var currentSongs = function() {
 	  return queue;
   };
-  
+
   return {
-	  request: request, 
-	  pause: pause, 
+	  request: request,
+	  pause: pause,
 	  currentSongs: currentSongs
   };
-	
-})();
+
+};

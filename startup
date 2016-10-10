@@ -1,9 +1,13 @@
 #!/bin/sh
 
+# TODO check dependencies
+# TODO make sure rabbitmq is running
+# TODO keep player and the server alive
+# TODO use nodemon instead of npm start
+
 echo "Starting player..."
 ./player/player.py &
 
 echo "Starting server..."
 cd server
 npm start
-

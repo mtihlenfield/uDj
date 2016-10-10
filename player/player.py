@@ -5,6 +5,8 @@ import time
 import threading
 import json
 import os
+import logging
+import logging.config
 
 
 # TODO check if thread is running before starting up a new thread
@@ -16,6 +18,7 @@ MUSIC_FOLDER = os.path.join(os.path.expanduser("~"), "music")
 COMMAND_QUEUE = "command_queue"
 NOTIFY_QUEUE = "song_complete_queue"
 QUEUE_HOST = "localhost"
+LOGGING_CONFIG_FILE = "logging-conf.json"
 
 
 class Player:
@@ -59,25 +62,30 @@ class QueueListener:
     COMMAND_STOP = "stop"
     COMMAND_PAUSE = "pause"
 
-    def __init__(self, song_complete_callback, music_folder):
+    def __init__(self, song_complete_callback, music_folder, logger=None):
         self.song_complete_callback = song_complete_callback
         self._player = Player(music_folder)
+        self._logger = logger
+
+    def _log(self, level, msg, *args, **kwargs):
+        if self._logger is not None:
+            getattr(self._logger, level)(msg, args, kwargs)
 
     def _play(self, uri):
 
-        if self._player.is_playing or self._player.is_paused():
+        if self._player.is_running():
             self._player.stop()
 
         def run():
-            print("Starting player thread for: ", uri)
+            self._log("debug", "Starting player thread for: " + uri)
             self._player.play(uri)
 
-            while self._player.is_playing or self._player.is_paused():
+            while self._player.is_running():
                 time.sleep(1)
                 continue
 
             self.song_complete_callback()
-            print("Player thread for ", uri, " stopped.")
+            self._log("debug", "Player thread for " + uri + " stopped.")
 
         thread = threading.Thread(target=run)
         thread.start()
@@ -93,23 +101,29 @@ class QueueListener:
         command_type = content["command_type"]
 
         if command_type == QueueListener.COMMAND_REQUEST:
-            print("playing: ", content)
+            self._log("debug", "playing: " + content)
             self._player.play(content["song"])
         elif command_type == QueueListener.COMMAND_PAUSE:
-            print("pausing")
+            self._log("debug", "pausing")
             self._player.pause()
         elif command_type == QueueListener.COMMAND_STOP:
-            print("stopping")
+            self._log("debug", "stopping")
             self._player.stop()
         else:
             raise Exception("Invalid command")
 
 
 def main():
-    print("Starting up...")
+
+    with open(LOGGING_CONFIG_FILE) as logging_config_file:
+        logging_json = json.load(logging_config_file)
+        logging.config.dictConfig(logging_json)
+
+    logger = logging.getLogger("player")
+    logger.info("Starting up...")
 
     def notify():
-        print("Player thread ended. Notifying.")
+        logger.info("Notifying requestor of song completion")
         connection = pika.BlockingConnection(pika.ConnectionParameters(host=QUEUE_HOST))
         channel = connection.channel()
         channel.queue_declare(queue=NOTIFY_QUEUE, durable=False)
@@ -117,14 +131,14 @@ def main():
 
     listener = QueueListener(notify, MUSIC_FOLDER)
 
-    print("Establishing queue connections...")
+    logger.info("Establishing queue connections...")
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=QUEUE_HOST))
     channel = connection.channel()
     channel.queue_declare(queue=COMMAND_QUEUE, durable=False)
 
     channel.basic_consume(listener.listen, queue=COMMAND_QUEUE, no_ack=True)
 
-    print("Waiting for commands on queue '" + COMMAND_QUEUE + "'...")
+    logger.info("Waiting for commands on queue '" + COMMAND_QUEUE + "'...")
     channel.start_consuming()
 
 

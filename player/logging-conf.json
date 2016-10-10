@@ -1,0 +1,39 @@
+{
+    "version": 1,
+
+    "formatters": {
+
+        "basic_formatter": {
+            "class": "logging.Formatter",
+            "format": "[%(asctime)-15s] [%(levelname)s]: %(message)s",
+            "datefmt": "%Y-%m-%d %H:%M"
+        }
+
+    },
+
+    "handlers": {
+
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": "player.log",
+            "mode": "a",
+            "formatter": "basic_formatter"
+        },
+
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler"
+        }
+
+    },
+
+    "loggers": {
+
+        "player": {
+            "level": "DEBUG",
+            "handlers": ["console", "file"]
+        }
+
+    }
+}
