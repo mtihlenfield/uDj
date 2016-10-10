@@ -1,9 +1,7 @@
-var index = function(app, queue) {
-  /* GET home page. */
-  app.get('/', function(req, res, next) {
-    res.render('index', { title: 'uDj'});
-  });
-  
-};
+var indexController = require("../controllers/index.js");
 
-module.exports = index;
+module.exports = function(app, queue) {
+  /* GET home page. */
+  app.get('/', indexController.getIndex);
+
+};

@@ -81,8 +81,10 @@ module.exports = function(host) {
 	amqp.connect(host)
 	  .then(function(conn) {
 		return conn.createChannel();
-	  }).then(function(ch) {
-		return ch.assertQueue(q, {"durable": false}).then(function(ok) {
+	  })
+	  .then(function(ch) {
+		return ch.assertQueue(q, {"durable": false})
+		.then(function(ok) {
 		  return ch.consume(q, callback);
 		});
 	  }).catch(console.err);
