@@ -9,8 +9,6 @@ import logging
 import logging.config
 
 
-# TODO check if thread is running before starting up a new thread
-# TODO setup logging
 # TODO write unit tests
 
 """ Constants """
@@ -53,7 +51,8 @@ class Player:
     def is_running(self):
         return (self._player.get_state() == vlc.State.Playing or
                 self._player.get_state() == vlc.State.Opening or
-                self._player.get_state() == vlc.Paused)
+                self._player.get_state() == vlc.State.Paused or
+                self._player.get_state() == vlc.State.NothingSpecial)
 
 
 class QueueListener:
@@ -66,26 +65,30 @@ class QueueListener:
         self.song_complete_callback = song_complete_callback
         self._player = Player(music_folder)
         self._logger = logger
+        self._stop_event = threading.Event()
 
     def _log(self, level, msg, *args, **kwargs):
         if self._logger is not None:
-            getattr(self._logger, level)(msg, args, kwargs)
+            getattr(self._logger, level)(msg)
 
     def _play(self, uri):
 
         if self._player.is_running():
-            self._player.stop()
+            print("Telling player to stop.")
+            self._stop()
 
         def run():
-            self._log("debug", "Starting player thread for: " + uri)
+            current_thread_id = threading.current_thread().ident
+            self._log("info", "Thread " + str(current_thread_id) + ": Player thread started.")
             self._player.play(uri)
 
-            while self._player.is_running():
+            while self._player.is_running() and (not self._stop_event.is_set()):
                 time.sleep(1)
                 continue
 
+            self._stop_event.clear()
             self.song_complete_callback()
-            self._log("debug", "Player thread for " + uri + " stopped.")
+            self._log("info", "Player thread " + str(current_thread_id) + " stopped.")
 
         thread = threading.Thread(target=run)
         thread.start()
@@ -95,20 +98,21 @@ class QueueListener:
 
     def _stop(self):
         self._player.stop()
+        self._stop_event.set()
 
     def listen(self, ch, method, properties, body):
         content = json.loads(str(body, "utf-8"))
         command_type = content["command_type"]
 
         if command_type == QueueListener.COMMAND_REQUEST:
-            self._log("debug", "playing: " + content)
-            self._player.play(content["song"])
+            # self._log("info", "Playing: " + str(content["song"]))
+            self._play(content["song"])
         elif command_type == QueueListener.COMMAND_PAUSE:
-            self._log("debug", "pausing")
-            self._player.pause()
+            self._log("info", "Pausing")
+            self._pause()
         elif command_type == QueueListener.COMMAND_STOP:
-            self._log("debug", "stopping")
-            self._player.stop()
+            self._log("info", "Stopping")
+            self._stop()
         else:
             raise Exception("Invalid command")
 
@@ -129,7 +133,7 @@ def main():
         channel.queue_declare(queue=NOTIFY_QUEUE, durable=False)
         channel.basic_publish(exchange='', routing_key=NOTIFY_QUEUE, body='done')
 
-    listener = QueueListener(notify, MUSIC_FOLDER)
+    listener = QueueListener(notify, MUSIC_FOLDER, logger)
 
     logger.info("Establishing queue connections...")
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=QUEUE_HOST))

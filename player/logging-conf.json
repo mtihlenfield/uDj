@@ -16,7 +16,7 @@
         "file": {
             "level": "DEBUG",
             "class": "logging.FileHandler",
-            "filename": "player.log",
+            "filename": "logs/player.log",
             "mode": "a",
             "formatter": "basic_formatter"
         },

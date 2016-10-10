@@ -1,13 +1,13 @@
 var amqp = require("amqplib");
 
-var Player = {
+var Player = function(host) {
 
-	send: function(payload) {
+	var send = function(payload) {
 
 		var q = "command_queue";
 		var msg = JSON.stringify(payload);
 
-		return amqp.connect('amqp://localhost')
+		return amqp.connect(host)
 			.then(function(conn) {
 				return conn.createChannel();
 			})
@@ -16,54 +16,65 @@ var Player = {
 					return ch.sendToQueue(q, new Buffer(msg));
 				});
 			}).catch(console.error);
-	},
+	};
 
-	play: function(uri) {
+	var play = function(uri) {
 		console.log("play: ", uri);
 		var payload = {
 			"command_type": "request",
 			"song": uri
 		};
 
-		return this.send(payload);
-	},
+		return send(payload);
+	};
 
-	stop: function() {
+	var stop = function() {
 
 		var payload = {
 			"command_type": "stop"
 		};
 
-		return this.send(payload);
-	},
+		return send(payload);
+	};
 
-	pause: function() {
+	var pause = function() {
 
 		var payload = {
 			"command_type": "pause"
 		};
 
-		return this.send(payload);
-	}
+		return send(payload);
+	};
+
+	return {
+		play: play,
+		stop: stop,
+		pause: pause
+	};
 
 };
 
 module.exports = function(host) {
 
-  var queue = [];
+	var queue = [];
+	var player = new Player(host);
 
-  var playNext = function() {
-  	  console.log("Playing from playNext.");
-	  Player.play(queue[0].FileLocation);
-  };
+	var playNext = function() {
+		console.log("Playing from playNext.");
+		player.play(queue[0].FileLocation);
+	};
 
-  var handleMessage = function(msg) {
-  	console.log("Handling message: ", msg.body);
-	if (queue.length > 0) {
-	  queue.shift();
-	  playNext();
-	}
-  };
+	var handleMessage = function(msg) {
+		console.log("Handling message: ", msg.content.toString());
+		if (queue.length > 1) {
+			queue.shift();
+			playNext();
+		} else if (queue.length == 1){
+			queue.shift();
+		} else {
+			console.warn("Recieved 'song complete' message on empty queue.");
+		}
+	};
 
   (function(callback) {
 	var q = "song_complete_queue";
@@ -80,11 +91,11 @@ module.exports = function(host) {
 
   var request = function(song) {
 
-	  console.log("Queue: Recived requst for: ", song);
+	  console.log("Queue: Recived reqeust for: ", song);
 	  if (queue.length === 0) {
 		  queue.push(song);
 		  console.log("Playing from request");
-		  Player.play(song.FileLocation);
+		  player.play(song.FileLocation);
 	  } else {
 		  queue.push(song);
 	  }
@@ -92,11 +103,14 @@ module.exports = function(host) {
   };
 
   var pause = function() {
-	  return Player.pause();
+	  return player.pause();
   };
 
   var stop = function() {
-	  return Player.stop();
+	  // important! this does not and should not remove the song from the queue.
+	  // A playing song should only be removed from the queue when after the player
+	  // sends a completed message
+	  return player.stop();
   };
 
   var currentSongs = function() {

@@ -6,9 +6,9 @@ window.onload = function(){
   });*/
   setInterval(function(){
     getQueue();
-  },10000);
+},5000);
   playPause();
-}
+};
 
 function pauseAnim () {
   let style = document.getElementsByClassName('ring-container')[0].style;
@@ -133,7 +133,7 @@ function populateSongs (album) {
       queueSong();
 
     }
-  })
+  });
 }
 
 function artistSlide () {
@@ -148,7 +148,7 @@ function artistSlide () {
     setTimeout(function() {
       populateAlbums(artist);
     }, 200);
-  })
+  });
 }
 
 function albumSlide () {
@@ -163,7 +163,7 @@ function albumSlide () {
     setTimeout(function() {
       populateSongs(album);
     }, 200);
-  })
+  });
 }
 
 function populateQueue () {
@@ -183,7 +183,7 @@ function populateQueue () {
       queueSong();
 
     }
-  })
+  });
 }
 
 function playPause () {
@@ -191,11 +191,11 @@ function playPause () {
     $(this).attr('id', 'pause');
     $(this).attr('src', 'img/pause.png');
     $(this).attr('alt', 'pause');
-  })
+  });
   $('#pause').click(function () {
     $(this).attr('id', 'play');
     $(this).attr('src', 'img/play.png');
     $(this).attr('alt', 'play');
-  })
+  });
   pauseAnim();
 }
