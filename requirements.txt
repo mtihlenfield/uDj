@@ -1,0 +1,4 @@
+- rabbitmq
+- vlc
+- nodejs
+- sqlite3

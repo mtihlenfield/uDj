@@ -17,6 +17,10 @@ import os
         done
 """
 
+# TODO check if thread is running before starting up a new thread
+# TODO setup logging
+# TODO write unit tests
+
 MUSIC_FOLDER = os.path.join(os.path.expanduser("~"), "music")
 
 COMMAND_REQUEST = "request"
@@ -33,7 +37,6 @@ class Player:
 
     def _play(self, uri):
         def run():
-
             local_file = os.path.join(MUSIC_FOLDER, uri)
             if (os.path.isfile(local_file)):
                 media = self.instance.media_new(local_file)
@@ -62,6 +65,8 @@ class Player:
         self.callback = callback
 
     def listen(self, ch, method, properties, body):
+        print("Received: ", body)
+
         content = json.loads(str(body, "utf-8"))
         command_type = content["command_type"]
         if command_type == COMMAND_REQUEST:
