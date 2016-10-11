@@ -112,6 +112,12 @@ module.exports = function(host) {
 	  // important! this does not and should not remove the song from the queue.
 	  // A playing song should only be removed from the queue when after the player
 	  // sends a completed message
+
+	  // TODO figure out what exactly "stop" should do on this level. Clear the queue?
+	  return player.stop();
+  };
+
+  var skip = function() {
 	  return player.stop();
   };
 
@@ -122,6 +128,8 @@ module.exports = function(host) {
   return {
 	  request: request,
 	  pause: pause,
+	  stop: stop,
+	  skip: skip,
 	  currentSongs: currentSongs
   };
 

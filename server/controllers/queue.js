@@ -28,7 +28,7 @@ module.exports = function(queue) {
     };
 
     var stop = function(req, res, next){
-        queue.pause().then(function(){
+        queue.stop().then(function(){
             res.sendStatus(200);
         }, function(){
             res.sendStatus(400);
@@ -36,7 +36,11 @@ module.exports = function(queue) {
     };
 
     var skip = function(req, res, next) {
-
+        queue.skip().then(function(){
+            res.sendStatus(200);
+        }, function(){
+            res.sendStatus(400);
+        });
     };
 
     return {

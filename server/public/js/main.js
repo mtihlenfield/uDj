@@ -5,6 +5,8 @@ window.onload = function(){
     getQueue();
   },5000);
   playPause();
+
+  $("#skip").click(skip);
 };
 
 function addSongSlide () {
@@ -172,10 +174,6 @@ function populateQueue () {
   });
 }
 
-function sendPause() {
-    console.log("Toggling pause");
-    return $.post("./api/queue/pause");
-}
 
 function toggleRecordPause() {
   let style = document.getElementsByClassName('ring-container')[0].style;
@@ -198,6 +196,10 @@ function togglePauseAnim() {
     switchPausePlay();
 }
 
+function sendPause() {
+    return $.post("./api/queue/pause");
+}
+
 function playPause () {
     $('#play').click(function () {
         sendPause().then(togglePauseAnim);
@@ -205,4 +207,8 @@ function playPause () {
     $('#pause').click(function () {
         sendPause().then(togglePauseAnim);
     });
+}
+
+function skip() {
+    return $.post("./api/queue/skip");
 }
