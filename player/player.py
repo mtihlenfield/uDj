@@ -29,15 +29,12 @@ class Player:
         event_manager = self._player.event_manager()
         event_manager.event_attach(vlc.EventType.MediaPlayerEndReached, song_complete_callback)
         event_manager.event_attach(vlc.EventType.MediaPlayerStopped, song_complete_callback)
-        # event_manager.event_attach(vlc.EventType.MediaPlayerMediaChanged, song_complete_callback)
 
     def play(self, uri):
         # stop so the callback is fired if there is a song playing already
         if (self.is_playing() or self.is_paused()):
-            print("Song already playing. Stopping it.")
             self.stop()
 
-        print("Playing song", uri)
         local_file = os.path.join(self.music_folder, uri)
         if (os.path.isfile(local_file)):
             media = self._instance.media_new(local_file)
@@ -71,7 +68,6 @@ class QueueListener:
         self._logger = logger
 
         def callback(event):
-            print(event.type)
             song_complete_callback()
 
         self._player = Player(music_folder, callback)
@@ -85,6 +81,7 @@ class QueueListener:
         command_type = content["command_type"]
 
         if command_type == QueueListener.COMMAND_REQUEST:
+            self._log("info", "Playing " + str(content["song"]))
             self._player.play(content["song"])
         elif command_type == QueueListener.COMMAND_PAUSE:
             self._log("info", "Pausing")
