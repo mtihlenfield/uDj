@@ -1,25 +1,11 @@
 window.onload = function(){
   getQueue();
   addSongSlide();
-  /*getQueue().then(function(data) {
-    console.log(data);
-  });*/
   setInterval(function(){
     getQueue();
-},5000);
+  },5000);
   playPause();
 };
-
-function pauseAnim () {
-  let style = document.getElementsByClassName('ring-container')[0].style;
-  if ( style.webkitAnimationPlayState === 'running' ) {
-    style.webkitAnimationPlayState = 'paused';
-    document.body.className = 'paused';
-  } else {
-    style.webkitAnimationPlayState = 'running';
-    document.body.className = '';
-  }
-}
 
 function addSongSlide () {
   let btn = $('#add-song-btn');
@@ -42,7 +28,7 @@ function addSongSlide () {
 
 function populateArtists () {
   $.ajax({
-    type: "POST",
+    type: "GET",
     url: "./api/music/artist",
     data: {},
     success: function(data){
@@ -99,7 +85,7 @@ function getQueue () {
 function populateAlbums (artist) {
   $('.artist').off('click');
   $.ajax({
-    type: "POST",
+    type: "GET",
     url:'./api/music/artist/' + artist[0].dataset.id,
     data: {},
     success: function(data) {
@@ -118,7 +104,7 @@ function populateAlbums (artist) {
 function populateSongs (album) {
   $('.album').off('click');
   $.ajax({
-    type: "POST",
+    type: "GET",
     url:'./api/music/album/' + album[0].dataset.id,
     data: {},
     success: function(data) {
@@ -168,7 +154,7 @@ function albumSlide () {
 
 function populateQueue () {
   $.ajax({
-    type: "POST",
+    type: "GET",
     url:'./api/music/album/' + album[0].dataset.id,
     data: {},
     success: function(data) {
@@ -186,16 +172,37 @@ function populateQueue () {
   });
 }
 
+function sendPause() {
+    console.log("Toggling pause");
+    return $.post("./api/queue/pause");
+}
+
+function toggleRecordPause() {
+  let style = document.getElementsByClassName('ring-container')[0].style;
+  if ( style.webkitAnimationPlayState === 'running' ) {
+    style.webkitAnimationPlayState = 'paused';
+    document.body.className = 'paused';
+  } else {
+    style.webkitAnimationPlayState = 'running';
+    document.body.className = '';
+  }
+}
+
+function switchPausePlay() {
+    $("#pause").toggleClass("hidden");
+    $("#play").toggleClass("hidden");
+}
+
+function togglePauseAnim() {
+    toggleRecordPause();
+    switchPausePlay();
+}
+
 function playPause () {
-  $('#play').click(function () {
-    $(this).attr('id', 'pause');
-    $(this).attr('src', 'img/pause.png');
-    $(this).attr('alt', 'pause');
-  });
-  $('#pause').click(function () {
-    $(this).attr('id', 'play');
-    $(this).attr('src', 'img/play.png');
-    $(this).attr('alt', 'play');
-  });
-  pauseAnim();
+    $('#play').click(function () {
+        sendPause().then(togglePauseAnim);
+    });
+    $('#pause').click(function () {
+        sendPause().then(togglePauseAnim);
+    });
 }

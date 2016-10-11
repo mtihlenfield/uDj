@@ -336,6 +336,10 @@ button:active {
   line-height: 1.5;
 }
 
+.hidden {
+    display: none;
+}
+
 @media (min-width: 700px) {
   .header h1 {
     transition: all 1s ease;
