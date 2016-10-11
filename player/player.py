@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 import vlc
 import pika
-import time
-import threading
+# import time
+# import threading
 import json
 import os
 import logging
@@ -20,12 +20,24 @@ LOGGING_CONFIG_FILE = "logging-conf.json"
 
 
 class Player:
-    def __init__(self, music_folder):
+    def __init__(self, music_folder, song_complete_callback):
         self.music_folder = music_folder
         self._instance = vlc.Instance()
         self._player = self._instance.media_player_new()
+        self._player.stop()  # make sure nothing is playing
+
+        event_manager = self._player.event_manager()
+        event_manager.event_attach(vlc.EventType.MediaPlayerEndReached, song_complete_callback)
+        event_manager.event_attach(vlc.EventType.MediaPlayerStopped, song_complete_callback)
+        # event_manager.event_attach(vlc.EventType.MediaPlayerMediaChanged, song_complete_callback)
 
     def play(self, uri):
+        # stop so the callback is fired if there is a song playing already
+        if (self.is_playing() or self.is_paused()):
+            print("Song already playing. Stopping it.")
+            self.stop()
+
+        print("Playing song", uri)
         local_file = os.path.join(self.music_folder, uri)
         if (os.path.isfile(local_file)):
             media = self._instance.media_new(local_file)
@@ -42,17 +54,11 @@ class Player:
         self._player.pause()
 
     def is_playing(self):
-        return (self._player.get_state() == vlc.State.Playing or
-                self._player.get_state() == vlc.State.Opening)
+        state = self._player.get_state()
+        return (state == vlc.State.Playing)
 
     def is_paused(self):
-        return (self._player.get_state() == vlc.Paused)
-
-    def is_running(self):
-        return (self._player.get_state() == vlc.State.Playing or
-                self._player.get_state() == vlc.State.Opening or
-                self._player.get_state() == vlc.State.Paused or
-                self._player.get_state() == vlc.State.NothingSpecial)
+        return (self._player.get_state() == vlc.State.Paused)
 
 
 class QueueListener:
@@ -62,57 +68,30 @@ class QueueListener:
     COMMAND_PAUSE = "pause"
 
     def __init__(self, song_complete_callback, music_folder, logger=None):
-        self.song_complete_callback = song_complete_callback
-        self._player = Player(music_folder)
         self._logger = logger
-        self._stop_event = threading.Event()
+
+        def callback(event):
+            print(event.type)
+            song_complete_callback()
+
+        self._player = Player(music_folder, callback)
 
     def _log(self, level, msg, *args, **kwargs):
         if self._logger is not None:
             getattr(self._logger, level)(msg)
-
-    def _play(self, uri):
-
-        if self._player.is_running():
-            print("Telling player to stop.")
-            self._stop()
-
-        def run():
-            current_thread_id = threading.current_thread().ident
-            self._log("info", "Thread " + str(current_thread_id) + ": Player thread started.")
-            self._player.play(uri)
-
-            while self._player.is_running() and (not self._stop_event.is_set()):
-                time.sleep(1)
-                continue
-
-            self._stop_event.clear()
-            self.song_complete_callback()
-            self._log("info", "Player thread " + str(current_thread_id) + " stopped.")
-
-        thread = threading.Thread(target=run)
-        thread.start()
-
-    def _pause(self):
-        self._player.pause()
-
-    def _stop(self):
-        self._player.stop()
-        self._stop_event.set()
 
     def listen(self, ch, method, properties, body):
         content = json.loads(str(body, "utf-8"))
         command_type = content["command_type"]
 
         if command_type == QueueListener.COMMAND_REQUEST:
-            # self._log("info", "Playing: " + str(content["song"]))
-            self._play(content["song"])
+            self._player.play(content["song"])
         elif command_type == QueueListener.COMMAND_PAUSE:
             self._log("info", "Pausing")
-            self._pause()
+            self._player.pause()
         elif command_type == QueueListener.COMMAND_STOP:
             self._log("info", "Stopping")
-            self._stop()
+            self._player.stop()
         else:
             raise Exception("Invalid command")
 
