@@ -1,0 +1,83 @@
+@import './0-vendor/_normalize';
+@import './0-vendor/_alegreya-sans-sc';
+@import './1-modules/_variables';
+@import './1-modules/_mixins';
+
+body {
+  background-color: $deep-purple;
+  color: $white;
+  font-family: 'Alegreya Sans SC', sans-serif;
+}
+
+h1,
+h3 {
+  transition: all 750ms $swift;
+}
+
+h4 { font-size: 20px; }
+
+.shadow { box-shadow: $shadow; }
+
+.center { text-align: center; }
+
+.border-box { box-sizing: border-box; }
+
+.no-display { display: none; }
+
+.circle { border-radius: 50%; }
+
+.block-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn,
+.hover {
+  opacity: 1;
+  transition: opacity 100ms $swift;
+
+  &:hover { opacity: .82; }
+
+  &:active { opacity: .6; }
+}
+
+
+header {
+  background-color: $black;
+  color: $green;
+  width: 100%;
+
+  & > h1 {
+    font-size: 45px;
+    font-weight: $light;
+    margin-top: 0;
+    width: 100%;
+  }
+}
+
+section > h3 {
+  font-size: 32px;
+  font-weight: $light;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.controls {
+  margin-top: 12px;
+
+  & > img {
+    height: 24px;
+    width: 24px;
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+}
+
+.current-song {
+  width: 70%;
+}
+
+@import './2-partials/_record';
+@import './2-partials/_add-song';
+@import './2-partials/_queue';
+@import './2-partials/_media-queries';

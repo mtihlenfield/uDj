@@ -1,0 +1,47 @@
+/* Styles for Vinyl Record */
+.record {
+  background-color: $black;
+  height: 280px;
+  width: 280px;
+  position: relative;
+}
+
+.ring-container,
+.inner,
+.dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+@for $i from 1 through 7 {
+  .ring#{$i} {
+    @include ring-dimen($i);
+  }
+}
+
+.inner {
+  background-color: $black;
+  border: 30px solid $green;
+  height: 100px;
+  width: 100px;
+  margin-left: -50px;
+  margin-top: -50px;
+}
+
+.dot {
+  height: 24px;
+  width: 24px;
+  margin-left: -12px;
+  margin-top: -12px;
+  background-color: $white;
+}
+
+/* Vinyl Record Animations */
+.spin {
+  animation: spin 2.5s linear infinite;
+}
+
+@keyframes spin {
+  100% { transform:rotate(360deg); }
+}

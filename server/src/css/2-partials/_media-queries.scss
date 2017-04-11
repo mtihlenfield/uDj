@@ -1,0 +1,21 @@
+@media (min-width: 700px) {
+  header > h1,
+  .add-song > h3,
+  #queue > h3 {
+    margin-left: 8px;
+    width: 0;
+  }
+
+  #play,
+  #pause,
+  #skip,
+  .add-btn > button {
+    cursor: pointer;
+  }
+
+  .artist { cursor: pointer; }
+
+  .queue-list {
+    justify-content: flex-start;
+  }
+}

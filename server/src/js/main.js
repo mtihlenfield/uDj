@@ -1,3 +1,12 @@
+// Require static assets for webpack
+import '../assets/img/favicon-16x16.png';
+import '../assets/img/favicon-32x32.png';
+import '../assets/img/pause.png';
+import '../assets/img/play.png';
+import '../assets/img/skip.png';
+
+import '../css/style.scss';
+
 window.onload = function(){
   getQueue();
   addSongSlide();
@@ -76,7 +85,7 @@ function getQueue () {
       if (data.length <= 0) return;
       document.getElementsByClassName("current-song")[0].getElementsByTagName("h4")[0].innerHTML = data[0].Name+" </br> "+data[0].ArtistName + " </br> " + data[0].AlbumName;
       for (let i = 1; i < data.length; i++) {
-        ul.append('<li class="song-box" data-id="' + data[i].id + '">' + data[i].Name + ' </br>' + data[i].ArtistName + '</br>' + data[i].AlbumName + '</li>');
+        ul.append('<li class="song-box border-box center" data-id="' + data[i].id + '">' + data[i].Name + ' </br>' + data[i].ArtistName + '</br>' + data[i].AlbumName + '</li>');
       }
       $('.queue-list').remove();
       $('#queue').append(ul);
@@ -187,8 +196,8 @@ function toggleRecordPause() {
 }
 
 function switchPausePlay() {
-    $("#pause").toggleClass("hidden");
-    $("#play").toggleClass("hidden");
+    $("#pause").toggleClass("no-display");
+    $("#play").toggleClass("no-display");
 }
 
 function togglePauseAnim() {

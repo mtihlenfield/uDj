@@ -1,0 +1,16 @@
+@mixin ring-dimen($ring-number) {
+  width: 260 - (($ring-number - 1) * 20) + px;
+  height: 260 - (($ring-number - 1) * 20) + px;
+  margin-top: ((($ring-number - 1) * 20) - 260) / 2 + px;
+  margin-left: ((($ring-number - 1) * 20) - 260) / 2 + px;
+
+  border-style: solid;
+  border-width: 3px;
+  border-left-color: $grey;
+  border-right-color: $grey;
+  border-top-color: $grey-800;
+  border-bottom-color: $grey-800;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}

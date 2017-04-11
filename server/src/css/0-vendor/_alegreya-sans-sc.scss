@@ -1,0 +1,27 @@
+@font-face {
+  font-family: 'Alegreya Sans SC';
+  font-weight: 300;
+  font-style: normal;
+  src: url('../assets/font/Alegreya-Sans-SC-300/Alegreya-Sans-SC-300.eot');
+  src: url('../assets/font/Alegreya-Sans-SC-300/Alegreya-Sans-SC-300.eot?#iefix') format('embedded-opentype'),
+       local('Alegreya Sans SC Light'),
+       local('Alegreya-Sans-SC-300'),
+       url('../assets/font/Alegreya-Sans-SC-300/Alegreya-Sans-SC-300.woff2') format('woff2'),
+       url('../assets/font/Alegreya-Sans-SC-300/Alegreya-Sans-SC-300.woff') format('woff'),
+       url('../assets/font/Alegreya-Sans-SC-300/Alegreya-Sans-SC-300.ttf') format('truetype'),
+       url('../assets/font/Alegreya-Sans-SC-300/Alegreya-Sans-SC-300.svg#AlegreyaSansSC') format('svg');
+}
+
+@font-face {
+  font-family: 'Alegreya Sans SC';
+  font-weight: 400;
+  font-style: normal;
+  src: url('../assets/font/Alegreya-Sans-SC/Alegreya-Sans-SC.eot');
+  src: url('../assets/font/Alegreya-Sans-SC/Alegreya-Sans-SC.eot?#iefix') format('embedded-opentype'),
+       local('Alegreya Sans SC'),
+       local('Alegreya-Sans-SC'),
+       url('../assets/font/Alegreya-Sans-SC/Alegreya-Sans-SC.woff2') format('woff2'),
+       url('../assets/font/Alegreya-Sans-SC/Alegreya-Sans-SC.woff') format('woff'),
+       url('../assets/font/Alegreya-Sans-SC/Alegreya-Sans-SC.ttf') format('truetype'),
+       url('../assets/font/Alegreya-Sans-SC/Alegreya-Sans-SC.svg#AlegreyaSansSC') format('svg');
+}
