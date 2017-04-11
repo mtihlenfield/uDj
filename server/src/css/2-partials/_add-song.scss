@@ -11,14 +11,19 @@
 
 .add-song {
   background-color: #00E676;
-  display: none;
+  height: auto;
   padding-bottom: 24px;
-}
+  transition: all 1000ms $swift;
 
-.add-song > h3 {
-  color: #212121;
-  margin-top: 0;
-  width: 100%;
+  & > h3 {
+    color: #212121;
+    margin-top: 0;
+    width: 100%;
+  }
+
+  &.closed {
+    opacity: 0;
+  }
 }
 
 .artist-list,
@@ -28,6 +33,7 @@
   margin: 0 auto;
   padding-left: 0;
   text-align: center;
+  transition: all 1000ms $swift;
 }
 
 .song-list {
@@ -43,6 +49,12 @@
   z-index: 1;
 }
 
+.artist,
+.album,
+.song {
+  transition: all 1000ms $swift;
+}
+
 .artist {
   background-color: $black;
   border-radius: 3px;
@@ -52,7 +64,6 @@
 
 .album-list {
   background-color: $grey;
-  display: none;
   width: 80%;
   z-index: 2;
 }
@@ -66,7 +77,6 @@
 .song-list {
   background-color: $black;
   color: $white;
-  display: none;
   font-size: 20px;
   text-align: left;
   z-index: 3;

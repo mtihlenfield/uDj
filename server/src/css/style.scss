@@ -1,5 +1,6 @@
 @import './0-vendor/_normalize';
 @import './0-vendor/_alegreya-sans-sc';
+@import './0-vendor/_material-icons';
 @import './1-modules/_variables';
 @import './1-modules/_mixins';
 
@@ -25,6 +26,8 @@ h4 { font-size: 20px; }
 .no-display { display: none; }
 
 .circle { border-radius: 50%; }
+
+.hide { opacity: 0; }
 
 .block-center {
   margin-left: auto;
@@ -64,8 +67,9 @@ section > h3 {
 
 .controls {
   margin-top: 12px;
+  margin-bottom: 12px;
 
-  & > img {
+  & > i {
     height: 24px;
     width: 24px;
     margin-left: 8px;
@@ -75,6 +79,11 @@ section > h3 {
 
 .current-song {
   width: 70%;
+
+  & > h4 {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
 }
 
 @import './2-partials/_record';
