@@ -11,6 +11,13 @@ import EleUtil from './components/ele-util';
 import Artist from './components/artist';
 import Queue from './components/queue';
 
+import Promise from 'promise-polyfill';
+
+// Polyfill Promise if needed.
+if (!window.Promise) {
+  window.Promise = Promise;
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   Queue.getQueue();
 

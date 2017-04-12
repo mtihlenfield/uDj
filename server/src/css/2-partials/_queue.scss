@@ -28,4 +28,9 @@
   margin: 12px;
   padding: 4px 8px;
   vertical-align: top;
+
+  & > p {
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
 }

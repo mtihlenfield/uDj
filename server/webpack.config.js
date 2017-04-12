@@ -121,6 +121,9 @@ module.exports = {
     }),
     new ExtractTextPlugin({
       filename: 'css/bundle.css'
+    }),
+    new webpack.ProvidePlugin({
+      fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
     })
   ]
 }

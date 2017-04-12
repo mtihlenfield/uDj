@@ -24,8 +24,7 @@ export default class Queue {
   static getQueue() {
     fetch('/api/queue')
     .then(res => res.json())
-    .then(this.populateQueue)
-    .catch(err => console.log(err));
+    .then(this.populateQueue);
   }
 
   static populateQueue(songs) {
@@ -39,14 +38,14 @@ export default class Queue {
 
     for (let i = 1; i < songs.length; i++) {
       const songEle = EleUtil.createEleWithAttrs({
-        tag: 'li', 
-        idName: `song-${songs[i].id}`, 
+        tag: 'li',
+        idName: `song-${songs[i].id}`,
         classes: ['song-box', 'border-box', 'center']
       });
 
       const songInfo = [];
       for (let j = 0; j < 3; j++) {
-        songInfo.push(document.createElement('span'));
+        songInfo.push(document.createElement('p'));
       }
 
       songInfo[0].innerHTML = songs[i].Name;
