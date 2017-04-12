@@ -14,34 +14,46 @@ export default class Album {
   }
 
   static populateAlbums(artist, albums) {
-    console.log('populateAlbums()');
     return new Promise(function (resolve, reject) {
-      const albumList = EleUtil.createEleWithAttrs({ tag: 'ul', className: 'album-list' });
+      const albumList = EleUtil.createEleWithAttrs({ tag: 'ul', classes: ['album-list', 'hide', 'no-display'] });
 
       for (let i = 0; i < albums.length; i++) {
-        const albumEle = EleUtil.createEleWithAttrs({ tag: 'li', idName: `album-${albums[i].AlbumID}`, classes: ['album', 'hover'] });
-        albumEle.innerHTML = albums[i].AlbumName;
+        const albumEle = EleUtil.createEleWithAttrs({
+          tag: 'li',
+          idName: `album-${albums[i].AlbumID}`,
+          classes: ['album', 'hover']
+        });
 
+        const albumNameEle = document.createElement('p');
+        albumNameEle.innerHTML = albums[i].AlbumName;
+
+        albumEle.appendChild(albumNameEle);
         albumList.appendChild(albumEle);
       }
 
       artist.appendChild(albumList);
 
-      resolve();
+      setTimeout(() => {
+        EleUtil.dropClass(artist, 'closed');
+        EleUtil.dropClass(albumList, 'no-display');
+
+        setTimeout(() => {
+          EleUtil.dropClass(albumList, 'hide');
+        }, 150);
+
+        resolve();
+      }, 300);
     });
   }
 
   static albumSlide() {
-    console.log('albumSlide()');
     const albums = document.getElementsByClassName('album');
 
     for (let i = 0; i < albums.length; i++) {
       albums[i].addEventListener('click', albumToggle);
     }
 
-
     function albumToggle(e) {
-      console.log('albumToggle()');
       e.stopPropagation();
 
       EleUtil.dropClass(this, 'hover');
@@ -50,15 +62,19 @@ export default class Album {
 
       for (let i = 0; i < albums.length; i++) {
         if (albums[i] !== this) {
-          EleUtil.addClass(albums[i], 'hide');
-
           setTimeout(() => {
             EleUtil.addClass(albums[i], 'no-display');
-          }, 1000);
+          }, 200);
+        } else {
+          EleUtil.addClass(this, 'closed');
+
+          setTimeout(() => {
+            EleUtil.dropClass(this, 'hide');
+          }, 150);
         }
       }
 
-      setTimeout(() => { Song.fetchSongs(this); }, 1000);
+      Song.fetchSongs(this);
     }
   }
 }

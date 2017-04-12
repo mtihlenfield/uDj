@@ -6,7 +6,6 @@
     <link rel='stylesheet' href='/css/bundle.css'>
     <link rel="icon" type="image/png" href="assets/img/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="assets/img/favicon-16x16.png" sizes="16x16" />
-    <script src="js/jquery.min.js"></script>
     <script src="js/bundle.js"></script>
   </head>
   <body>
@@ -25,10 +24,10 @@
       </div>
     </section>
     <section class="controls center">
-      <i id="pause" class="btn material-icons">pause</i>
+      <i id="playPause" class="btn material-icons">pause</i>
       <i id="skip" class="btn material-icons">skip_next</i>
     </section>
-    <section>
+    <section> 
       <div class="current-song block-center center">
 
       </div>
@@ -36,9 +35,9 @@
     <section class="add-btn center">
       <button type="button" id="add-song-btn" class="btn">Add Song</button>
     </section>
-    <section class="add-song center no-display closed">
+    <section class="add-song center no-display closed hide">
       <h3>Artists</h3>
-      <ul class="artist-list block-center"></ul>
+      <ul class="artist-list block-center hide"></ul>
     </section>
     <section id="queue">
       <h3 class="center">Queue</h3>

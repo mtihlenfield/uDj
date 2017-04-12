@@ -13,6 +13,17 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
+        enforce: 'pre',
+        use: {
+          loader: 'eslint-loader',
+          query: {
+            configFile: './.eslintrc.js'
+          }
+        }
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           query: {

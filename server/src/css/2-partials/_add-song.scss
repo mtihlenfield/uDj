@@ -9,11 +9,21 @@
   margin-bottom: 24px;
 }
 
+.add-song,
+.artist-list,
+.album-list,
+.song-list,
+.artist,
+.album,
+.song {
+  transition: all 300ms ease-in-out;
+}
+
 .add-song {
   background-color: #00E676;
   height: auto;
+  max-height: 2000px;
   padding-bottom: 24px;
-  transition: all 1000ms $swift;
 
   & > h3 {
     color: #212121;
@@ -22,7 +32,7 @@
   }
 
   &.closed {
-    opacity: 0;
+    max-height: 0;
   }
 }
 
@@ -33,11 +43,11 @@
   margin: 0 auto;
   padding-left: 0;
   text-align: center;
-  transition: all 1000ms $swift;
 }
 
 .song-list {
   padding-left: 5px;
+
 }
 
 .artist-list,
@@ -52,14 +62,22 @@
 .artist,
 .album,
 .song {
-  transition: all 1000ms $swift;
+  max-height: 2000px;
+
+  & > p {
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+
+  &.closed {
+    max-height: 35px;
+  }
 }
 
 .artist {
   background-color: $black;
   border-radius: 3px;
   font-size: 28px;
-  margin-bottom: 5px;
 }
 
 .album-list {
@@ -72,6 +90,10 @@
   border-bottom: 5px solid $black;
   color: $black;
   font-size: 24px;
+
+  &.no-border {
+    border-bottom: 0;
+  }
 }
 
 .song-list {

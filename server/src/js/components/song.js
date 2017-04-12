@@ -1,10 +1,11 @@
 'use_strict';
 
 import EleUtil from './ele-util';
+import Queue from './queue';
 
+// Class containing functions for song related functionality.
 export default class Song {
   static fetchSongs(album) {
-    console.log('fetchSongs()');
     fetch(`/api/music/album/${album.id.split('-')[1]}`)
     .then(res => res.json())
     .then(songs => this.populateSongs(album, songs))
@@ -12,34 +13,55 @@ export default class Song {
   }
 
   static populateSongs(album, songs) {
-    console.log('populateSongs()');
-    const songList = EleUtil.createEleWithAttrs({ tag: 'ul', className: 'song-list' });
+    const songList = EleUtil.createEleWithAttrs({ tag: 'ul', classes: ['song-list', 'hide', 'no-display'] });
 
     for (let i = 0; i < songs.length; i++) {
-      const songEle = EleUtil.createEleWithAttrs({ tag: 'li', idName: `song-${songs[i].id}`, classes: ['song', 'hover'] });
-      songEle.innerHTML = songs[i].Name;
+      const songEle = EleUtil.createEleWithAttrs({
+        tag: 'li',
+        idName: `song-${songs[i].id}`,
+        classes: ['song', 'hover']
+      });
 
+      const songNameEle = document.createElement('p');
+
+      songEle.addEventListener('click', Queue.queueSong);
+
+      songNameEle.innerHTML = songs[i].Name;
+
+      songEle.appendChild(songNameEle);
       songList.appendChild(songEle);
     }
 
     album.appendChild(songList);
 
-    this.queueSong();
+    setTimeout(() => {
+      EleUtil.addClass(album, 'no-border');
+      EleUtil.dropClass(album, 'closed');
+      EleUtil.dropClass(songList, 'no-display');
+
+      setTimeout(() => {
+        EleUtil.dropClass(songList, 'hide');
+      }, 150);
+
+    }, 300);
   }
 
-  static queueSong() {
-    const songs = document.getElementsByClassName('song');
+  static populateCurrentSong(song) {
+    const currSongEle = EleUtil.getElementByClass('current-song');
 
-    for (let i = 0; i < songs.length; i++) {
-      songs[i].addEventListener('click', notifyQueue);
-    }
+    if (!currSongEle.children.length) {
+      const currSongInfo = [];
+      for (let i = 0; i < 3; i++) {
+        currSongInfo.push(document.createElement('h4'));
+      }
 
-    function notifyQueue(e) {
-      e.stopPropagation();
-      fetch(`/api/queue/request/${this.id.split('-')[1]}`)
-      .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(err => console.log(err));
+      currSongInfo[0].innerHTML = song.Name;
+      currSongInfo[1].innerHTML = song.ArtistName;
+      currSongInfo[2].innerHTML = song.AlbumName;
+
+      for (let i = 0; i < currSongInfo.length; i++) {
+        currSongEle.appendChild(currSongInfo[i]);
+      }
     }
   }
 }

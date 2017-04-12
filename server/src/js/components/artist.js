@@ -7,69 +7,61 @@ import EleUtil from './ele-util';
 export default class Artist {
   static fetchArtists() {
     return fetch('/api/music/artist')
-    .then(res => res.json())
-    .catch(err => console.log(err));
+    .then(res => res.json());
   }
 
   static populateArtists(artists) {
-    console.log('populate artists triggered');
-    console.log(this);
-    const self = this;
-
     return new Promise(function (resolve, reject) {
-      const artistList = document.getElementsByClassName('artist-list')[0];
+      const artistList = EleUtil.getElementByClass('artist-list');
 
       for (let i = 0; i < artists.length; i++) {
-        const artistEle = EleUtil.createEleWithAttrs({ tag: 'li', idName: `artist-${artists[i].ArtistID}`, classes: ['artist', 'hover'] });
-        artistEle.innerHTML = artists[i].ArtistName;
+        const artistEle = EleUtil.createEleWithAttrs({
+          tag: 'li',
+          idName: `artist-${artists[i].ArtistID}`,
+          classes: ['artist', 'hover']
+        });
 
+        const artistNameEle = document.createElement('p');
+        artistNameEle.innerHTML = artists[i].ArtistName;
+
+        artistEle.appendChild(artistNameEle);
         artistList.appendChild(artistEle);
       }
 
-      const addSongEle = document.getElementsByClassName('add-song')[0];
-      EleUtil.dropClass(addSongEle, 'closed');
-
-      setTimeout(Artist.artistSlide, 1000);
-      resolve('artists populated');
+      Artist.artistSlide();
+      resolve();
     });
   }
 
   static artistSlide() {
     const artists = document.getElementsByClassName('artist');
     for (let i = 0; i < artists.length; i++) {
-      //artists[i].removeEventListener('click', artistTogggle);
       artists[i].addEventListener('click', artistToggle);
     }
 
     function artistToggle(e) {
-      console.log('clicked');
-
       EleUtil.dropClass(this, 'hover');
-      
-      //e.stopPropagation();
+      this.removeEventListener('click', artistToggle);
 
-      //const eles = document.getElementsByClassName('hover');
-
-      /*for (let i = 0; i < eles.length; i++) {
-        EleUtil.dropClass(eles[i], 'hover');
-      }*/
+      e.stopPropagation();
 
       for (let i = 0; i < artists.length; i++) {
-        if (artists[i] !== this) {
-          EleUtil.addClass(artists[i], 'hide');
+        EleUtil.addClass(artists[i], 'hide');
 
+        if (artists[i] !== this) {
           setTimeout(() => {
             EleUtil.addClass(artists[i], 'no-display');
+          }, 200);
+        } else {
+          EleUtil.addClass(this, 'closed');
 
-          }, 1000);
+          setTimeout(() => {
+            EleUtil.dropClass(this, 'hide');
+          }, 150);
         }
       }
 
-      for (let i = 0; i < artists.length; i++) {
-        artists[i].removeEventListener('click', artistToggle);
-      }
-
-      setTimeout(() => { Album.fetchAlbums(this); }, 1000);
+      Album.fetchAlbums(this);
     }
   }
 }

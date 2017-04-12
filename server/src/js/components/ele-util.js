@@ -55,4 +55,30 @@ export default class EleUtil {
       ele.removeChild(ele.firstChild);
     }
   }
+
+  static slideUp(ele, child) {
+    EleUtil.addClass(child, 'hide');
+
+    setTimeout(() => {
+      EleUtil.addClass(ele, 'closed');
+
+      setTimeout(() => {
+        EleUtil.addClass(ele, 'no-display');
+        EleUtil.dropChildren(child);
+      }, 300);
+    }, 150);
+  }
+
+  static slideDown(ele, child) {
+    EleUtil.dropClass(ele, 'no-display');
+
+    setTimeout(() => {
+      EleUtil.dropClasses(ele, ['hide', 'closed']);
+      EleUtil.dropClass(child, 'hide');
+    }, 50);
+  }
+
+  static getElementByClass(className, index = 0) {
+    return document.getElementsByClassName(className)[index];
+  }
 }
