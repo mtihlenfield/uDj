@@ -22,10 +22,9 @@ export default class Song {
         classes: ['song', 'hover']
       });
 
-      const songNameEle = document.createElement('p');
-
       songEle.addEventListener('click', Queue.queueSong);
 
+      const songNameEle = document.createElement('p');
       songNameEle.innerHTML = songs[i].Name;
 
       songEle.appendChild(songNameEle);
@@ -46,21 +45,16 @@ export default class Song {
     }, 300);
   }
 
-  static populateCurrentSong(song) {
+  static populateCurrentSong({ Name: name, ArtistName: artist, AlbumName: album}) {
+    const info = [name, artist, album];
     const currSongEle = EleUtil.getElementByClass('current-song');
 
-    if (!currSongEle.children.length) {
-      const currSongInfo = [];
+    if (!currSongEle.firstElementChild) {
       for (let i = 0; i < 3; i++) {
-        currSongInfo.push(document.createElement('h4'));
-      }
+        const infoEle = document.createElement('h4');
+        infoEle.innerHTML = info[i];
 
-      currSongInfo[0].innerHTML = song.Name;
-      currSongInfo[1].innerHTML = song.ArtistName;
-      currSongInfo[2].innerHTML = song.AlbumName;
-
-      for (let i = 0; i < currSongInfo.length; i++) {
-        currSongEle.appendChild(currSongInfo[i]);
+        currSongEle.appendChild(infoEle);
       }
     }
   }

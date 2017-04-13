@@ -20,12 +20,10 @@ if (!window.Promise) {
 
 document.addEventListener('DOMContentLoaded', function () {
   Queue.getQueue();
-
+  playPause();
   addSongSlide();
 
   setInterval(Queue.getQueue, 5000);
-
-  playPause();
 
   document.getElementById('skip').addEventListener('click', skip);
 });
@@ -44,9 +42,9 @@ function addSongSlide() {
       btn.innerHTML = 'Cancel';
 
       Artist.fetchArtists()
-      .then(Artist.populateArtists)
       .then(EleUtil.slideDown(addSongEle, artistList))
       .catch(err => console.error(err));
+
     } else {
       btn.innerHTML = 'Add Song';
       EleUtil.slideUp(addSongEle, artistList);
@@ -56,7 +54,7 @@ function addSongSlide() {
 
 function toggleRecordPause() {
   const style = EleUtil.getElementByClass('ring-container').style;
-  if ( document.body.className === 'paused') {
+  if (document.body.className === 'paused') {
     style.webkitAnimationPlayState = 'running';
     document.body.className = '';
   } else {

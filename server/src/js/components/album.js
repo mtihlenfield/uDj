@@ -9,7 +9,6 @@ export default class Album {
     fetch(`/api/music/artist/${artist.id.split('-')[1]}`)
     .then(res => res.json())
     .then(albums => this.populateAlbums(artist, albums))
-    .then(this.albumSlide)
     .catch(err => console.log(err));
   }
 
@@ -23,6 +22,8 @@ export default class Album {
           idName: `album-${albums[i].AlbumID}`,
           classes: ['album', 'hover']
         });
+
+        albumEle.addEventListener('click', albumToggle);
 
         const albumNameEle = document.createElement('p');
         albumNameEle.innerHTML = albums[i].AlbumName;
@@ -44,21 +45,14 @@ export default class Album {
         resolve();
       }, 300);
     });
-  }
-
-  static albumSlide() {
-    const albums = document.getElementsByClassName('album');
-
-    for (let i = 0; i < albums.length; i++) {
-      albums[i].addEventListener('click', albumToggle);
-    }
 
     function albumToggle(e) {
       e.stopPropagation();
 
       EleUtil.dropClass(this, 'hover');
-
       this.removeEventListener('click', albumToggle);
+
+      const albums = document.getElementsByClassName('album');
 
       for (let i = 0; i < albums.length; i++) {
         if (albums[i] !== this) {

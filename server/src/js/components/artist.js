@@ -7,7 +7,8 @@ import EleUtil from './ele-util';
 export default class Artist {
   static fetchArtists() {
     return fetch('/api/music/artist')
-    .then(res => res.json());
+    .then(res => res.json())
+    .then(this.populateArtists);
   }
 
   static populateArtists(artists) {
@@ -21,6 +22,8 @@ export default class Artist {
           classes: ['artist', 'hover']
         });
 
+        artistEle.addEventListener('click', artistToggle);
+
         const artistNameEle = document.createElement('p');
         artistNameEle.innerHTML = artists[i].ArtistName;
 
@@ -28,22 +31,16 @@ export default class Artist {
         artistList.appendChild(artistEle);
       }
 
-      Artist.artistSlide();
       resolve();
     });
-  }
-
-  static artistSlide() {
-    const artists = document.getElementsByClassName('artist');
-    for (let i = 0; i < artists.length; i++) {
-      artists[i].addEventListener('click', artistToggle);
-    }
 
     function artistToggle(e) {
+      e.stopPropagation();
+
       EleUtil.dropClass(this, 'hover');
       this.removeEventListener('click', artistToggle);
 
-      e.stopPropagation();
+      const artists = document.getElementsByClassName('artist');
 
       for (let i = 0; i < artists.length; i++) {
         EleUtil.addClass(artists[i], 'hide');
